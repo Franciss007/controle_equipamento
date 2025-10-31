@@ -72,7 +72,7 @@ def register_routes(app):
             return redirect(url_for("dashboard"))
         elif session.get("role") == "filial":
             return redirect(url_for("minhas_solicitacoes"))
-        return render_template("home.html")
+        return render_template("index.html")
 
     @app.route("/minhas-solicitacoes")
     @roles_required("filial","admin","aprovador")
