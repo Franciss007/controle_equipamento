@@ -1,0 +1,55 @@
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='modal.css') }}">
+{% endblock %}
+
+{% for s in ultimas %}
+  {% if s.tipo in ["Notebook", "Impressora", "Computador", "Tablet"] %}
+
+  <div id="ver-config-{{ s.id }}" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal('ver-config-{{ s.id }}')">&times;</span>
+      <h2>Configuração do {{ s.tipo }}</h2>
+
+      <p><strong>Solicitante:</strong> {{ s.solicitante_nome }}</p>
+      <hr> <p><strong>Marca:</strong> {{ s.marca or 'Não cadastrada' }}</p>
+      <p><strong>Modelo:</strong> {{ s.modelo or 'Não cadastrado' }}</p>
+      <p><strong>Informações Técnicas:</strong></p>
+      <pre>{{ s.info_tecnicas or 'Nenhuma informação técnica cadastrada.' }}</pre>
+    </div>
+  </div>
+<br>
+
+  <div id="form-config-{{ s.id }}" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal('form-config-{{ s.id }}')">&times;</span>
+      
+      <form action="{{ url_for('configuracoes_equipamento', id=s.id) }}" method="POST">
+        <h2>Editar configuração de {{ s.tipo }}</h2>
+
+        <div style="display:flex; flex-direction: column; gap:10px;">
+          
+          <input type="text" 
+                 name="marca" 
+                 placeholder="Marca" 
+                 value="{{ s.marca or '' }}" 
+                 required>
+          
+          <input type="text" 
+                 name="modelo" 
+                 placeholder="Modelo" 
+                 value="{{ s.modelo or '' }}" 
+                 required>
+          
+          <textarea name="info_tecnicas" 
+                    placeholder="Informações Técnicas (Ex: Processador, Memória, HD, etc.)"
+                    rows="5"
+          >{{ s.info_tecnicas or '' }}</textarea>
+
+        </div>
+        
+        <button type="submit" class="btn-salvar">Salvar Configuração</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}

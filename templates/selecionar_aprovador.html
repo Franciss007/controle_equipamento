@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Nova Solicitação{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='aprovador.css') }}">
+{% endblock %}
+{% block content %}
+<div class="card">
+<h2>Selecionar Aprovador</h2>
+<form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+    <input type="hidden" name="novo_status" value="Em análise">
+    <label class="filtro-container" for="aprovador">Escolha o aprovador responsável:</label>
+        <select name="aprovador" required>
+            {% for a in aprovadores %}
+                <option value="{{ a.username }}">{{ a.username }} {{ a.email }} </option>
+            {% endfor %}
+        </select>
+    <button type="submit" class="btn"> Confirmar</button>
+</form>
+</div>
+{% endblock %}

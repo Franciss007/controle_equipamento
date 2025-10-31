@@ -1,0 +1,168 @@
+:root {
+  --accent: #3b82f6; /* azul moderno */
+  --background: #0b1020;
+  --foreground: #f1f5f9;
+}
+
+/* ===== LAYOUT BASE ===== */
+h1 {
+  font-size: 1.8rem;
+  color: var(--foreground);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h2 {
+  color: var(--foreground);
+  font-size: 1.4rem;
+  margin: 40px 0 16px;
+}
+
+.btn {color:rgb(255, 255, 255); text-decoration: none;  display:inline-block; padding: 8px 12px; border: 1px solid #334155; border-radius: 10px;}
+.btn:hover {border-color: rgba(17, 84, 220, 0.666); transform: translateY(-2px); }
+
+/* ======== CARDS ======== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: rgba(17, 24, 39, 0.8);
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  color: #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+/* movimento e sombra */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.35),
+              0 0 12px rgba(162, 107, 255, 0.2);
+}
+
+/* destaque quando ativo */
+.card.ativo {
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 20px rgba(59,130,246,0.4);
+}
+
+.card strong {
+  display: block;
+  font-size: 1.6rem;
+  margin-top: 6px;
+  color: var(--foreground);
+}
+
+/* ======== TABELA ======== */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(17, 24, 39, 0.85);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.tabela th, .tabela td {
+  border-bottom: 1px solid #1f2937;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #e5e7eb;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.tabela th {
+  background: #10172b;
+  color: #cbd5e1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tabela tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* efeito hover em linha */
+.tabela tbody tr:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transition: 0.2s;
+}
+
+/* ======== CAMPOS E BOTÕES ======== */
+.tabela select,
+.tabela input,
+.tabela button {
+  background: #111827;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #5f679c;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tabela select:hover,
+.tabela input:hover,
+.tabela button:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 0 8px rgba(59,130,246,0.3);
+}
+
+.tabela select:focus,
+.tabela input:focus,
+.tabela button:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tabela th,
+  .tabela td {
+    padding: 6px 8px;
+    font-size: 12px;
+    white-space: normal;
+  }
+
+  .tabela th.col-oculta,
+  .tabela td.col-oculta {
+    display: none;
+  }
+
+  tr.expandido td.col-oculta {
+    display: table-cell;
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+@media (min-width: 601px) {
+  .tabela th.col-oculta,
+  .tabela td.col-oculta {
+    display: table-cell !important;
+  }
+}

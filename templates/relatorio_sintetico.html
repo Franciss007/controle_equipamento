@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Sintético{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='relatorio.css') }}">
+{% endblock %}
+{% block content %}
+<h1>Relatório Sintético de Solicitações</h1>
+
+{% if resumo %}
+  <div class="filtro-container">
+    <label for="filtro-filial">Filtrar por Filial:</label>
+    <input type="text" id="filtro-filial" placeholder="Digite a filial...">
+    <button id="exportar">Exportar Tabela</button>
+  </div>
+
+  <table id="tabela-sintetico" class="tabela">
+    <thead>
+      <tr>
+        <th>Filial</th>
+        <th>Tipo de Equipamento</th>
+        <th>Status</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for filial, tipos in resumo.items() %}
+        {% for tipo, status_dict in tipos.items() %}
+          {% for status, qtd in status_dict.items() %}
+            <tr>
+              <td>{{ filial }}</td>
+              <td>{{ tipo }}</td>
+              <td>{{ status }}</td>
+              <td>{{ qtd }}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Sem dados para exibir.</p>
+{% endif %}
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script>
+const filtroFilial = document.getElementById("filtro-filial");
+const tabela = document.querySelector('#tabela-sintetico tbody');
+
+function filtrarTabela() {
+    const filialValor = filtroFilial.value.toLowerCase();
+
+    Array.from(tabela.rows).forEach(row => {
+        const filial = row.cells[0].textContent.toLowerCase();
+        row.style.display = filial.includes(filialValor) ? '' : 'none';
+    });
+}
+
+if (tabela) {
+    filtroFilial.addEventListener("input", filtrarTabela);
+}
+
+document.getElementById('exportar').addEventListener('click', () => {
+    const wb = XLSX.utils.book_new();
+    const tabelaVisivel = document.getElementById('tabela-sintetico');
+    const ws = XLSX.utils.table_to_sheet(tabelaVisivel, {raw: true});
+    XLSX.utils.book_append_sheet(wb, ws, "Sintético");
+    XLSX.writeFile(wb, "relatorio_sintetico.xlsx");
+})
+</script>
+
+{% endblock %}

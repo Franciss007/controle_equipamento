@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Controle de Equipamentos{% endblock %}</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+  {% block css %}{% endblock %}
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logosistema_.png') }}">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="topbar">
+    <div class="brand">
+      {% if session.get('role') in ['filial','admin','aprovador'] %}
+      <button id="menu-toggle" class="menu-toggle">☰</button>
+      {% endif %}
+      <img src="{{ url_for('static', filename='images/logosistema_.png') }}" alt="Logo">
+      <a class="brand-name" href="{{ url_for('index') }}">Controle de Equipamentos</a>
+    </div>
+
+    <!-- Botão toggle (mobile) -->
+
+    <!-- Menu -->
+    <ul id="side-menu" class="menu">
+      {% if session.get('role') in ['filial','admin','aprovador'] %}
+      <li><a href="{{ url_for('solicitacao') }}">Solicitar</a></li>
+      {% endif %}
+      {% if session.get('role') in ['filial','admin','aprovador'] %}
+      <li><a href="{{ url_for('minhas_solicitacoes') }}">Minhas solicitações</a></li>
+      {% endif %}
+      {% if session.get('role') in ['aprovador', 'admin'] %}
+      <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+      <li class="dropdown">
+        <a href="javascript:void(0);" onclick="this.parentElement.classList.toggle('open')">Relatórios ▾</a>
+        <ul class="submenu">
+          <li><a href="{{ url_for('relatorios', tipo='analitico') }}">Analítico</a></li>
+          <li><a href="{{ url_for('relatorios', tipo='sintetico') }}">Sintético</a></li>
+        </ul>
+      </li>
+      <li><a href="{{ url_for('equipamentos_adicionar') }}">Adicionar Equipamento</a></li>
+      <li><a href="{{ url_for('usuarios') }}">Usuários</a></li>
+      <li><a href="{{ url_for('equipamentos_listar') }}">Lista de Equipamentos</a></li>
+      {% endif %}
+    </ul>
+
+    <!-- Autenticação -->
+    <div class="auth">
+      {% if session.get('usuario') %}
+        <span>Olá, {{ session['usuario'] }}</span>
+        <a class="btn" href="{{ url_for('logout') }}">Sair</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login') }}">Entrar</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+        {% for categoria, msg in mensagens %}
+          <div class="flash {{ categoria }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const toggleBtn = document.getElementById('menu-toggle');
+   
+  </script>
+
+</body>
+</html>

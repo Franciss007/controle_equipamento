@@ -1,0 +1,187 @@
+
+    {% extends "base.html" %}
+    {% block title %}Dashboard{% endblock %}
+    {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% endblock %}
+    {% block content %}
+    <h1>Dashboard</h1>
+    <div class="cards">
+        <div class="card" onclick="filtrar('Todos')">Total: <strong>{{ totais.total }}</strong></div>
+        <div class="card" onclick="filtrar('Aberta')">Abertas: <strong>{{ totais.abertas }}</strong></div>
+        <div class="card" onclick="filtrar('Em análise')">Em análise: <strong>{{ totais.analise }}</strong></div>
+        <div class="card" onclick="filtrar('Aprovada')">Aprovadas: <strong>{{ totais.aprovadas }}</strong></div>
+        <div class="card" onclick="filtrar('Reprovada')">Reprovadas: <strong>{{ totais.reprovadas }}</strong></div>
+        <div class="card" onclick="filtrar('Atendida')">Atendidas: <strong>{{ totais.atendidas }}</strong></div>
+    </div>
+    <h2>Últimas solicitações</h2>
+    {% if ultimas %}
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>Solicitante</th>
+                <th>Filial</th>
+                <th class="col-oculta">Setor</th>
+                <th class="col-oculta">Prioridade</th>
+                <th class="col-oculta">Tipo</th>
+                <th class="col-oculta">Status</th>
+                <th class="col-oculta">Aberta em</th>
+                <th class="col-oculta">Ações</th>
+                <th class="col-oculta">Configurações</th>
+                {% set mostrar_anexos = ultimas|selectattr("status", "in", ["Em análise","Aprovada","Reprovada","Atendida"])|list %}
+                {% if mostrar_anexos %}
+                <th class="col-oculta">Anexos</th>
+                {% endif %}
+                <th>Responsável</th>
+                <th class="mobile-col">Detalhes</th>
+            </tr>
+    </thead>
+
+    <tbody>
+        {% for s in ultimas %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.solicitante_nome }}</td>
+            <td>{{ s.filial }}</td>
+            <td class="col-oculta">{{ s.setor }}</td>
+            <td class="col-oculta">{{ s.prioridade }}</td>
+            <td class="col-oculta">{{ s.status }}</td>
+            <td class="col-oculta">{{ s.tipo }}</td>
+            <td class="col-oculta">{{ s.data_abertura }}</td>
+            <td class="col-oculta"> {% if s.status == "Reprovada" or s.status == "Atendida" %} 
+                <span>Finalizado</span> 
+                {% elif s.status == "Em análise" %} 
+                <form method="post" action="{{ url_for('atualizar_status', id=s.id) }}"> 
+                    <select name="novo_status" onchange="this.form.submit()"> 
+                        <option value="">Mudar status</option>
+                        <option value="Aprovada">Aprovada</option>
+                        <option value="Reprovada">Reprovada</option>
+                        <option value="Atendida">Atendida</option> 
+                    </select> 
+                </form> 
+                {% elif s.status == "Aprovada" %} 
+                <form method="post" action="{{ url_for('atualizar_status', id=s.id) }}"> 
+                    <select name="novo_status" onchange="this.form.submit()"> 
+                        <option value="" disabled selected>Mudar status</option>
+                        <option value="Atendida">Atendida</option> 
+                    </select> 
+                </form> {% else %} 
+                <form method="post" action="{{ url_for('atualizar_status', id=s.id) }}"> 
+                    <select name="novo_status" onchange="this.form.submit()"> 
+                        <option value="">Mudar status</option>
+                        <option value="Em análise">Em análise</option>
+                        <option value="Aprovada">Aprovada</option>
+                        <option value="Reprovada">Reprovada</option>
+                        <option value="Atendida">Atendida</option>
+                    </select>
+                </form> {% endif %}
+            </td>
+            <td class="col-oculta">
+                {% if s.tipo in ["Notebook", "Impressora", "Computador", "Tablet"] %}
+                <button type="button" onclick="abrirModal('ver-config-{{ s.id }}')">👁</button>
+                <button type="button" onclick="abrirModal('form-config-{{ s.id }}')">⚙</button>
+                {% endif %}
+            </td>
+            
+            {% if mostrar_anexos %}
+            <td class="col-oculta">
+                {% if s.anexos %}
+                {% for anexo in s.anexos %}
+                <a href="{{ url_for('ver_anexo', nome_arquivo=anexo) }}" target="_blank">{{ anexo }}</a><br>
+                {% endfor %}
+                {% else %}
+                Sem anexos
+                {% endif %}
+            </td>
+            {% endif %}
+            
+            <td>
+                {{ s.status }}
+                {% if s.responsavel_nome %}
+                <br><small>por: {{ s.responsavel_nome }}</small>
+                {% endif %}
+            </td>
+            
+            
+            <td class="mobile-col">
+                <a href="{{ url_for('ver_descricao', id=s.id) }}" class="btn">Ver mais</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</table>
+{% else %}
+<p>Sem solicitações registradas.</p>
+{% endif %}
+<script>
+    function filtrar(status) {
+        let linhas = document.querySelectorAll("table.tabela tbody tr");
+        linhas.forEach(linha => {
+            let celulaStatus = linha.cells[5].innerText.trim();
+            if (status === "Todos" || celulaStatus === status) {
+                linha.style.display = "";
+            } else {
+                linha.style.display = "none";
+            }
+        });
+        document.querySelectorAll(".cards .card").forEach(card => {
+            card.classList.remove("ativo");
+        });
+        document.querySelector(`.cards .card[onclick="filtrar('${status}')"]`)?.classList.add("ativo");
+    }            
+    
+    window.onload = function() {
+        filtrar("Aberta");
+    }
+    
+    // Script genérico para exibir nome de arquivos escolhidos
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("input[type='file']").forEach(input => {
+            input.addEventListener("change", function() {
+                let span = document.getElementById("file-name-" + this.id.split("file-input-")[1]);
+                if (this.files.length > 0) {
+                    span.innerText = this.files[0].name;
+                } else {
+                    span.innerText = "";
+                }
+            });
+        });
+    });
+    
+    
+    function toggleCard(id) {
+        let card = document.getElementById(id);
+        if (card.style.display === "none" || card.style.display === "") {
+            card.style.display = "block";
+        } else {
+            card.style.display ="none";
+        }
+    }
+    
+    function abrirModal(id) {
+        document.getElementById(id).style.display = "block";
+    }
+    function fecharModal(id) {
+        document.getElementById(id).style.display = "none";
+    }
+    window.onclick = function(event) {
+        document.querySelectorAll('.modal').forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
+    
+    function toggleDetalhes(botao) {
+        const linha = botao.closest('tr');
+        linha.classList.toggle('expandido');
+        botao.textContent = linha.classList.contains('expandido') ? 'Ver menos' : 'Ver mais';
+    }
+    </script>
+
+{% include 'modal.html' with context %}
+{% endblock %}

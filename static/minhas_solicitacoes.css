@@ -1,0 +1,76 @@
+h1 {
+  font-size: 2rem;
+  color: whitesmoke;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.btn {color:rgb(255, 255, 255); text-decoration: none; display:inline-block; padding: 8px 12px; border: 1px solid #334155; border-radius: 10px;}
+.btn:hover {border-color: rgba(17, 84, 220, 0.666); transform: translateY(-2px); }
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0b1020;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.tabela th, .tabela td {
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #e5e7eb;
+  border-bottom: 1px solid #1f2937;
+}
+
+.tabela th {
+  background: #111827;
+  font-weight: 600;
+}
+
+.tabela tbody tr {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.tabela tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.tabela tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 800px) {
+  .tabela th.col-oculta, 
+  .tabela td.col-oculta {
+    display: none;
+  }
+}
+
+.status-indicador {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.status-indicador.aberta { background-color: #2563eb; }      
+.status-indicador.em-análise { background-color: #fbbf24; } 
+.status-indicador.aprovada { background-color: #16a34a; }   
+.status-indicador.reprovada { background-color: #dc2626; }  
+.status-indicador.atendida { background-color: #7c3aed; }   
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 600px) {
+  .tabela th, .tabela td {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}

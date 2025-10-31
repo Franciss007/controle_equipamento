@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Descrição da Solicitação{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='ver_descricao.css')}}">
+
+<style>
+  .acoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+  }
+  .btn-aprovar {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+  }
+  .btn-reprovar {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+  }
+  .btn-inativar {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Detalhes da Solicitação</h2>
+
+    <div class="card">
+        <p><strong>ID:</strong> {{ solicitacao.id }}</p>
+        <p><strong>Filial:</strong> {{ solicitacao.filial }}</p>
+        <p><strong>Solicitante:</strong> {{ solicitacao.solicitante_nome }}</p>
+        <p><strong>Contato:</strong> {{ solicitacao.contato }}</p>
+        <p><strong>Tipo:</strong> {{ solicitacao.tipo }}</p>
+        <p><strong>Setor:</strong> {{ solicitacao.setor }}</p>
+        <p><strong>Prioridade:</strong> {{ solicitacao.prioridade }}</p>
+        <p><strong>Status:</strong> {{ solicitacao.status }}</p>
+        <p><strong>Data de abertura:</strong> {{ solicitacao.data_abertura }}</p>
+
+        <hr>
+        <h4>Descrição</h4>
+        <p style="white-space: pre-line;">{{ solicitacao.descricao }}</p>
+
+        {% if anexos %}
+        <hr>
+        <h4>Anexos</h4>
+        <ul>
+            {% for a in anexos %}
+                <li><a href="{{ url_for('ver_anexo', nome_arquivo=a) }}" target="_blank">{{ a }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <hr>
+        <h4>Ações</h4>
+        <div class="acoes">
+            {% if solicitacao.status == "Em análise" %}
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Aprovada">
+                    <button type="submit" class="btn-aprovar">Aprovar</button>
+                </form>
+
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Reprovada">
+                    <button type="submit" class="btn-reprovar">Reprovar</button>
+                </form>
+            {% elif solicitacao.status == "Atendida" %}
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Inativada">
+                    <button type="submit" class="btn-inativar">Inativar</button>
+                </form>
+            {% elif solicitacao.status == "Aprovada" %}
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Atendida">
+                    <button type="submit" class="btn-aprovar">Atender / Inserir no estoque</button>
+                </form>
+            {% elif solicitacao.status == "Aberta" %}
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Em análise">
+                    <button type="submit" class="btn-analisar">Analisar</button>
+                </form>
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Aprovada">
+                    <button type="submit" class="btn-aprovar">Aprovar</button>
+                </form>
+
+                <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+                    <input type="hidden" name="novo_status" value="Reprovada">
+                    <button type="submit" class="btn-reprovar">Reprovar</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
+    <a href="{{ request.referrer or url_for('dashboard') }}" class="btn btn-secondary">← Voltar</a>
+</div>
+{% endblock %}

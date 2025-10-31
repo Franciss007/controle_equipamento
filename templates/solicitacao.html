@@ -1,0 +1,65 @@
+    {% extends "base.html" %}
+    {% block title %}Nova Solicitação{% endblock %}
+    {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='solicitacao.css')}}">
+    {% endblock %}
+    {% block content %}
+    <h1>Abrir Solicitação</h1>
+    <form method="post" class="form">
+        <label>Filial:</label>
+        <select name="filial">
+            <option value="">Selecione a filial solicitante</option>
+            {% for loja in lojas %}
+                <option value="{{ loja.nome }}">{{ loja.codigo }} - {{ loja.nome }}</option>
+            {% endfor %}
+        </select>
+        <label>Nome do solicitante
+            <input type="text" name="solicitante_nome" placeholder="Nome de quem está solicitando" required>
+        </label>
+        <label>Contato (e-mail ou telefone)
+            <input type="text" name="contato" placeholder="(00) 00000-0000 / email@empresa.com" required>
+        </label>
+        <label>Tipo de equipamento:</label>
+        <select name="tipo" required>
+            <option value="">Selecione</option>
+            <option value="Notebook">Notebook</option>
+            <option value="Impressora">Impressora</option>
+            <option value="Monitor">Monitor</option>
+            <option value="Teclado">Teclado</option>
+            <option value="Mouse">Mouse</option>
+            <option value="Computador">Computador/Desktop</option>
+            <option value="Manutencao">Manutenção</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Carregador novo">Carregador novo</option>
+        </select>
+        <label>Setor:</label>
+        <select name="setor" required>
+            <option value="">Selecione</option>
+            <option value="TI">TI</option>
+            <option value="FinanceiroCR">Financeiro CR</option>
+            <option value="FinanceiroCP">Financeiro CP</option>
+            <option value="RH">RH</option>
+            <option value="DP">DP</option>
+            <option value="Logística">Logística</option>
+            <option value="Compras">Compras</option>
+            <option value="Produção">Produção</option>
+            <option value="Contabilidade">Contabilidade</option>
+            <option value="Juridico">Jurídico</option>
+            <option value="Comercial">Comercial</option>
+            <option value="Apuração">Apuração</option>
+            <option value="RM">RM</option>
+        </select>
+
+        <label>Descrição
+            <textarea name="descricao" rows="3" placeholder="Descreva a necessidade ou o problema" required></textarea>
+        </label>
+        <label>Prioridade
+            <select name="prioridade">
+                <option>Baixa</option>
+                <option selected>Média</option>
+                <option>Alta</option>
+            </select>
+        </label>
+        <button type="submit">Enviar solicitação</button>
+    </form>
+    {% endblock %}

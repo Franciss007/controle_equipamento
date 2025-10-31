@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Adicionar Equipamento{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='adicionar_equipamento.css')}}">
+{% endblock %}
+{% block content %}
+<h1>Adicionar Equipamento</h1>
+<form method="post" class="form">
+    <label>Nome:
+        <input type="text" name="nome" placeholder="Informe o nome do usuário que irá ficar responsável pelo equipamento" required>
+    </label>
+
+    <label>Patrimônio:
+        <input type="text" name="patrimonio" placeholder="Insira o nº de patrimônio">
+    </label>
+
+    <label>Tipo:</label>
+    <select name="tipo" required>
+        <option value="">Selecione</option>
+        <option value="Notebook">Notebook</option>
+        <option value="Impressora">Impressora</option>
+        <option value="Monitor">Monitor</option>
+        <option value="Teclado">Teclado</option>
+        <option value="Mouse">Mouse</option>
+        <option value="Servidor">Servidor</option>
+        <option value="Computador">Computador/Desktop</option>
+        <option value="Tablet">Tablet</option>
+        <option value="Carregador novo">Carregador novo</option>
+    </select>
+
+    <label>Setor:</label>
+    <select name="setor" required>
+        <option value="">Selecione</option>
+        <option value="TI">TI</option>
+        <option value="FinanceiroCR">Financeiro CR</option>
+        <option value="FinanceiroCP">Financeiro CP</option>
+        <option value="RH">RH</option>
+        <option value="DP">DP</option>
+        <option value="Logística">Logística</option>
+        <option value="Compras">Compras</option>
+        <option value="Produção">Produção</option>
+        <option value="Contabilidade">Contabilidade</option>
+        <option value="Juridico">Jurídico</option>
+        <option value="Comercial">Comercial</option>
+        <option value="Apuração">Apuração</option>
+        <option value="RM">RM</option>
+    </select>
+
+    <label>Filial:</label>
+    <select name="filial">
+        <option value="">Selecione</option>
+        {% for loja in lojas %}
+            <option value="{{ loja.codigo }}">{{ loja.nome }} - {{ loja.codigo }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Adicionar</button>
+    <button type="reset">Limpar</button>
+</form>
+{% endblock %}

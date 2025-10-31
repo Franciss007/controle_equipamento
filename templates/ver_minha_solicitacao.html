@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Descrição da Solicitação{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='ver_descricao.css')}}">
+
+<style>
+  
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Detalhes da Solicitação</h2>
+
+    <div class="card">
+        <p><strong>ID:</strong> {{ solicitacao.id }}</p>
+        <p><strong>Filial:</strong> {{ solicitacao.filial }}</p>
+        <p><strong>Solicitante:</strong> {{ solicitacao.solicitante_nome }}</p>
+        <p><strong>Contato:</strong> {{ solicitacao.contato }}</p>
+        <p><strong>Tipo:</strong> {{ solicitacao.tipo }}</p>
+        <p><strong>Setor:</strong> {{ solicitacao.setor }}</p>
+        <p><strong>Prioridade:</strong> {{ solicitacao.prioridade }}</p>
+        <p><strong>Status:</strong> {{ solicitacao.status }}</p>
+        <p><strong>Data de abertura:</strong> {{ solicitacao.data_abertura }}</p>
+
+        <hr>
+        <h4>Descrição</h4>
+        <p style="white-space: pre-line;">{{ solicitacao.descricao }}</p>
+
+        {% if anexos %}
+        <hr>
+        <h4>Anexos</h4>
+        <ul>
+            {% for a in anexos %}
+                <li><a href="{{ url_for('ver_anexo', nome_arquivo=a) }}" target="_blank">{{ a }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <hr>
+    </div>
+
+    <br>
+    <a href="{{ request.referrer or url_for('dashboard') }}" class="btn btn-secondary">← Voltar</a>
+</div>
+{% endblock %}

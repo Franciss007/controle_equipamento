@@ -1,0 +1,121 @@
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  color: #e5e7eb;
+}
+
+/* ===== CARD DE DETALHES ===== */
+.container .card {
+  background: #0b1020;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #1f2937;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Efeito de destaque ao passar o mouse */
+.container .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  border-color: rgba(28, 28, 162, 0.658);
+}
+
+/* ===== TEXTOS ===== */
+.container h2 {
+  margin-bottom: 20px;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.container h4 {
+  color: #cbd5e1;
+  margin-top: 16px;
+}
+
+/* ===== LINKS DE ANEXOS ===== */
+.container a {
+  color: whitesmoke;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.container a:hover {
+  color: #fefefe;
+}
+
+/* ===== BOTÕES ===== */
+.btn-aprovar,
+.btn-analisar,
+.btn-reprovar,
+.btn-secondary {
+  background: #111827;
+  color: #fff;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.btn-aprovar {
+  background: #14532d;
+  border-color: #22c55e;
+}
+.btn-aprovar:hover {
+  background: #22c55e;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+
+.btn-analisar {
+  background: #ad9f1d;
+  border-color: #c5b522;
+}
+.btn-analisar:hover {
+  background: #e2d62b;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+
+.btn-reprovar {
+  background: #7f1d1d;
+  border-color: #ef4444;
+}
+.btn-reprovar:hover {
+  background: #ef4444;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+}
+
+.btn-secondary {
+  background: #1f2937;
+  color: whitesmoke;
+}
+.btn-secondary:hover {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  
+}
+
+.acoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+  }
+
+  .btn-inativar {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+  }

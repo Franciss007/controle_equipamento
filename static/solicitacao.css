@@ -1,0 +1,106 @@
+/* ===== CONTAINER GERAL ===== */
+h1 {
+  font-size: 2rem;
+  color: whitesmoke;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #0b1020;
+  padding: 24px 28px;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  animation: fadeUp 0.5s ease;
+}
+
+.form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  border-color: rgba(51, 51, 195, 0.708);
+}
+
+/* ===== CAMPOS ===== */
+label {
+  display: block;
+  color: #e5e7eb;
+  font-weight: 500;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: #f1f5f9;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color:  rgba(51, 51, 195, 0.708);
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+  background: #1e293b;
+}
+
+/* ===== BOTÃO ===== */
+button[type="submit"] {
+  margin-top: 24px;
+  width: 100%;
+  padding: 12px;
+  background: #111827;
+  color: #fff;
+  border: 1px solid #5f679c;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  background: #1c4499;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+/* ===== ANIMAÇÃO SUAVE ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 600px) {
+  .form {
+    padding: 18px 16px;
+  }
+
+  input, select, textarea {
+    font-size: 14px;
+  }
+
+  button[type="submit"] {
+    font-size: 15px;
+  }
+}

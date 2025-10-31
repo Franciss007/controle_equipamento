@@ -1,0 +1,107 @@
+/* === CARD PRINCIPAL === */
+.card {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  margin: 80px auto;
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s ease;
+  transform: translateY(0);
+}
+
+.card strong{
+    font-size: 1.7rem;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(59, 130, 246, 0.35),
+              0 0 15px rgba(162, 107, 255, 0.25);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  color: #fff;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.card p {
+  color: #cbd5e1;
+  text-align: center;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* === TEXTAREA === */
+textarea {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px;
+  resize: none;
+  transition: 0.3s;
+}
+
+textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59,130,246,0.4);
+  outline: none;
+}
+
+/* === BOTÕES === */
+.btn {
+  background-color: rgba(17, 24, 39, 0.95);
+  color: white;
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(97, 134, 255, 0.3);
+}
+
+/* === LINK DENTRO DO BOTÃO === */
+.btn a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+/* === BOTÃO CANCELAR === */
+.cancel {
+  opacity: 0.85;
+}
+
+.cancel:hover {
+  opacity: 1;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 600px) {
+  .card {
+    margin: 40px 20px;
+    padding: 30px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}

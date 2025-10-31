@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Início{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+{% block content %}
+<div class="home-container">
+    <section class="hero-section">
+        <h1 class="hero-title">Sistema de Gestão</h1>
+        <p class="hero-subtitle">
+            Sistema completo para gestão de solicitações e controle de equipamentos. 
+            Simplifique seus processos e aumente a eficiência.
+        </p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('solicitacao') }}" class="btn-gradient">Nova Solicitação <i class="fas fa-arrow-right"></i></a>
+            <a href="{{ url_for('dashboard') }}" class="btn-outline">Acessar Dashboard</a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+        <div class="features-grid">
+            <a href="{{ url_for('solicitacao') }}" class="feature-card glass">
+                <div class="icon-circle bg-primary"><i class="fas fa-file-alt"></i></div>
+                <h3>Solicitações Rápidas</h3>
+                <p>Registre novas solicitações de forma rápida e intuitiva.</p>
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="feature-card glass">
+                <div class="icon-circle bg-blue"><i class="fas fa-chart-line"></i></div>
+                <h3>Dashboard Completo</h3>
+                <p>Visualize todas as solicitações em tempo real com filtros avançados.</p>
+            </a>
+            <a href="{{ url_for('equipamentos_listar') }}" class="feature-card glass">
+                <div class="icon-circle bg-purple"><i class="fas fa-box"></i></div>
+                <h3>Gestão de Equipamentos</h3>
+                <p>Controle total do inventário de equipamentos da empresa.</p>
+            </a>
+            <a href="{{ url_for('relatorios', tipo='analitidco') }}" class="feature-card glass">
+                <div class="icon-circle bg-green"><i class="fas fa-chart-pie"></i></div>
+                <h3>Relatórios Detalhados</h3>
+                <p>Gere relatórios analíticos e sintéticos para melhor gestão.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-section glass">
+        <h2>Pronto para começar?</h2>
+        <p>Faça login para acessar todas as funcionalidades do sistema ou crie uma nova solicitação imediatamente.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('login') }}" class="btn-gradient">Fazer Login</a>
+            <a href="{{ url_for('solicitacao') }}" class="btn-outline">Criar Solicitação</a>
+        </div>
+    </section>
+
+</div>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

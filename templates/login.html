@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<div class="login-wrapper">
+
+<!-- Card do formulário -->
+<div class="login-card moderno">
+    <div class="icon-login">🔒</div>
+    <h1>Login</h1>
+    <p class="descricao">Entre com suas credenciais para acessar o sistema</p>
+
+    <form method="post" action="{{ url_for('login') }}" class="form">
+        <label>Usuário
+            <input type="text" name="username" placeholder="Digite seu usuário" required>
+        </label>
+        <label>Senha
+            <input type="password" name="senha" placeholder="Digite sua senha" required>
+        </label>
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+
+<!-- Card do texto explicativo -->
+<div class="info-card moderno">
+    <h2>📦 Bem-vindo!</h2>
+    <p>
+        Para fazer uma solicitação, clique em <strong>“Solicitar”</strong> no topo da página.<br><br>
+        Caso seja usuário de suporte, basta realizar o login ao lado para acessar o sistema completo com todas as funcionalidades administrativas.
+    </p>
+
+    <ul>
+        <li>📊 Dashboard em tempo real</li>
+        <li>🧰 Gestão completa de equipamentos</li>
+        <li>📑 Relatórios detalhados</li>
+    </ul>
+</div>
+
+
+</div>
+
+{% endblock %}

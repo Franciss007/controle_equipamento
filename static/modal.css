@@ -1,0 +1,148 @@
+/* === MODAL PRINCIPAL === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.7); /* mesmo tom de card */
+  backdrop-filter: blur(8px); /* blur suave */
+  overflow: auto;
+  transition: all 0.4s ease;
+}
+
+/* === CONTEÚDO DO MODAL === */
+.modal-content {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 10% auto;
+  width: 90%;
+  max-width: 500px;
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.3s ease;
+  transform: translateY(0);
+  transition: all 0.4s ease;
+}
+.modal input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: rgba(17, 24, 39, 0.3);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+.modal p{
+    margin-bottom: 3px;
+}
+.modal button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.2);
+  transition: all 0.3s ease;
+}
+.modal-content:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(59, 130, 246, 0.35),
+              0 0 15px rgba(162, 107, 255, 0.25);
+}
+
+/* === BOTÃO FECHAR === */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #93c5fd;
+  transition: all 0.3s ease;
+}
+
+.close:hover {
+  color: #3b82f6;
+  transform: translateY(-2px);
+  text-shadow: 0 0 8px rgba(59,130,246,0.4);
+}
+
+/* === TEXTAREA DENTRO DO MODAL === */
+.modal-content textarea {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px;
+  resize: none;
+  transition: 0.3s;
+}
+
+.modal-content textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59,130,246,0.4);
+  outline: none;
+}
+
+/* === BOTÕES DENTRO DO MODAL === */
+.modal-content .btn {
+  background-color: rgba(17, 24, 39, 0.95);
+  color: white;
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.modal-content .btn:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(97, 134, 255, 0.3);
+}
+
+.modal-content .btn a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.modal-content .cancel {
+  opacity: 0.85;
+}
+
+.modal-content .cancel:hover {
+  opacity: 1;
+}
+
+/* === ANIMAÇÃO === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 600px) {
+  .modal-content {
+    margin: 40px 20px;
+    padding: 30px;
+  }
+
+  .modal-content .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}

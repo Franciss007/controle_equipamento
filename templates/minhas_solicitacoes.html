@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% block title %}Minhas Solicitações{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='minhas_solicitacoes.css') }}">
+{% endblock %}
+{% block content %}
+<h1>Minhas Solicitações - Filial/Loja {{ session.get('filial') }} </h1>
+{% if solicitacoes %}
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Protocolo</th><th class="col-oculta">Prioridade</th><th>Status</th><th>Aberta em</th><th class="col-oculta">Descrição</th>
+                <th>Detalhes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in solicitacoes %}
+           <tr>            
+                <td>
+                <span class="status-indicador {{ s.status|lower|replace(' ', '-') }}"></span>
+                {{ s.id }}
+                </td>
+                <td class="col-oculta">{{ s.prioridade }}</td>
+                <td>{{ s.status }}</td>
+                <td>{{ s.data_abertura }}</td>
+                <td class="col-oculta">{{ s.descricao  }}</td>
+                <td>
+                <a href="{{ url_for('ver_descricao_filial', id=s.id) }}" class="btn">Ver mais</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhuma solicitação encontrada para sua filial.</p>
+{% endif %}
+{% endblock %}

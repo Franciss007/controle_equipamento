@@ -1,0 +1,121 @@
+.container { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+h1 { margin-top: 0; }
+.container form { margin-bottom: 24px;}
+
+/* ===== FILTRO ===== */
+.filtro-container input {
+  background: #11083555; color:white;
+  border-radius: 4px; border: 1px solid var(--accent);
+}
+.filtro-container label { display: inline-flex; align-items: center; gap: 6px; min-width: 120px; }
+.filtro-container button {  padding: 7px 10px; border: 0; border-radius: 7px;
+  background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(59,130,246,.2); transition: .2s;}
+.filtro-container button:hover {  background: #3b83f6ab; box-shadow: 0 3px 20px rgba(59,130,246,.2);}
+
+.btn {color:rgb(255, 255, 255); display:inline-block; padding: 8px 12px; border: 1px solid #334155; border-radius: 10px;}
+.btn:hover {border-color: red; transform: translateY(-2px); }
+
+
+/* ===== Formulários ===== */
+.form { display: grid; gap: 12px; max-width: 600px; }
+.form label { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.form input,.form select,.form textarea {
+  padding: 10px 12px; border: 1px solid #374151; border-radius: 10px;
+  background: #0b1020; color: var(--text);
+}
+.form button {
+  padding: 10px 14px; border-radius: 10px;
+  background: #0d3d9e; color: #fff; font-weight: 600; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(59,130,246,.2); transition: .2s;
+  border: solid 1px #4877d5;
+}
+.form button:hover { background: #3b83f6ab; }
+
+/* ===== TABELA ===== */
+.tabela {  width: 100%;  border-collapse: collapse;  background: #0b1020;  border-radius: 12px;  overflow: hidden;}
+.tabela th, .tabela td {  border-bottom: 1px solid #1f2937;  padding: 12px 10px;  text-align: left; font-size: 14px;  vertical-align: top;
+  white-space: normal;  word-wrap: break-word;}
+.tabela th {  background: #10172b;  color: #cbd5e1;  font-weight: 600;  font-size: 14px;}
+/* Zebra striping */
+.tabela tbody tr:nth-child(even):not(.status-aberto):not(.status-analise):not(.status-reprovado):not(.status-finalizado) {
+  background: rgba(255,255,255,0.02);}
+
+/* Limites na tabelas*/
+.tabela th:nth-child(9), .tabela td:nth-child(9) { 
+  max-width: 350px; /* Descrição */
+}
+.tabela th:nth-child(12), .tabela td:nth-child(12) { 
+  max-width: 300px; /* Anexos */
+}
+.tabela th:last-child, .tabela td:last-child {
+  max-width: 250px; /* Aprovação */
+}
+
+/* Botões dentro da tabela */
+.tabela select,.tabela input,.tabela button {
+  background: #111827; color: #fff; padding: 5px 8px;
+  border-radius: 4px; border: 1px solid #5f679c; font-size: 14px; cursor: pointer;
+  transition: .2s;
+}
+.tabela select:hover,.tabela input:hover,.tabela button:hover,.tabela label:hover {
+  border-color: blue; transform: translateY(-2px);
+}
+.tabela select:focus,.tabela input:focus,.tabela button:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 5px rgba(0,123,255,.5);
+}
+
+/* TABELA RESPONSIVA MOBILE */
+@media (max-width: 900px) {
+  .tabela {
+    width: 100%;
+    display: table;
+    table-layout: fixed; /* impede expansão lateral */
+  }
+
+  .tabela th, 
+  .tabela td {
+    word-wrap: break-word;
+    white-space: normal; /* permite quebra de linha */
+    overflow-wrap: break-word;
+    text-align: left;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  /* Esconde colunas menos importantes */
+  .tabela th.col-oculta,
+  .tabela td.col-oculta {
+    display: none;
+  }
+
+  /* “Ver mais” reaparece e mostra os detalhes */
+  tr.expandido td.col-oculta {
+    display: table-cell;
+    animation: fadeIn .3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+
+/* ===== LAYOUT FORM + TABELA ===== */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* form fixo à esquerda, tabela à direita */
+  gap: 24px;
+  align-items: start;
+}
+
+/* Responsivo: empilha no mobile */
+@media (max-width: 900px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+

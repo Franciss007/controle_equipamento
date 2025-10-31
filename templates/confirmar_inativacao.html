@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Inativar Equipamento{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='inativar.css') }}">
+{% endblock %}
+{% block content %}
+<div class="card">
+<h2>Inativar Equipamento</h2>
+
+<p>Tem certeza que deseja inativar o equipamento <strong>{{ equipamento.tipo }}</strong> de <strong>{{ equipamento.nome }}</strong>?</p>
+
+<form method="post">
+  <div>
+    <label for="motivo">Motivo da inativação:</label><br>
+    <textarea id="motivo" name="motivo" rows="3" required></textarea>
+  </div>
+  <br>
+  <button type="submit" class="btn">Confirmar</button>
+  <button class="btn"><a href="{{ url_for('equipamentos_listar') }}" class="cancel">Cancelar</a></button>
+</form>
+</div>
+{% endblock %}

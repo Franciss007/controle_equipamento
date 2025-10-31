@@ -1,0 +1,18 @@
+<!-- templates/inserir_patrimonio.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width:500px; margin:0 auto; padding:20px;">
+    <h3>Informar Patrimônio</h3>
+    <p>Solicitação: <strong>{{ solicitacao.id }}</strong></p>
+    <p>Descrição: {{ solicitacao.descricao }}</p>
+    <form method="post" action="{{ url_for('atualizar_status', id=solicitacao.id) }}">
+        <input type="hidden" name="novo_status" value="Atendida">
+        <div class="form.patrimonio">
+            <label for="patrimonio">Número do Patrimônio:</label>
+            <input type="text" id="patrimonio" name="patrimonio" class="form-control" required>
+        </div>
+        <button type="submit" class="btn-upload">Salvar</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

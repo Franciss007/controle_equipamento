@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Relatório de Equipamentos{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='listagem.css') }}">
+{% endblock %}
+{% block content %}
+<div class="filtros-wrapper">
+<h1>Relatório de Equipamentos</h1>
+
+{% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+        {% for categoria, msg in mensagens %}
+            <p class="flash-removido">{{ msg }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if equipamentos %}
+    <div class="filtro-container">
+        <label for="filtro-filial">Filtrar por Filial:</label>
+        <input type="text" id="filtro-filial" placeholder="Digite a filial...">
+    </div>
+    
+    <div class="filtro-container">
+        <label for="filtro-setor">Filtrar por Setor:</label>
+        <input type="text" id="filtro-setor" placeholder="Digite o setor...">
+    </div>
+    
+    <div class="filtro-container">
+        <label for="filtro-tipo">Filtrar por Tipo:</label>
+        <input type="text" id="filtro-tipo" placeholder="Digite o tipo...">
+    </div>
+    <div class="filtro-container">
+        <button id="exportar">Exportar tabela</button>
+    </div>
+</div>
+    
+    
+    <table class="tabela" id="tabela-equipamentos">
+        <thead>
+            <tr>
+                <th>Protocolo</th><th>Solicitante</th><th>Filial</th><th>Setor</th><th>Tipo</th><th class="col-oculta">Adicionado em</th><th>Ação</th><th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in equipamentos %}
+                <tr>
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.nome }}</td>
+                    <td>{{ s.filial }}</td>
+                    <td>{{ s.setor }}</td>
+                    <td>{{ s.tipo }}</td>
+                    <td class="col-oculta">{{ s.data_abertura }}</td>
+                    <td>
+                        <button><a href="{{ url_for('inativar_equipamento', equipamento_id=s.id) }}">Inativar</a></button>
+                    </td>
+                    <td class="mobile-col">
+                        <a href="{{ url_for('ver_descricao', id=s.id) }}" class="btn">Ver mais</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum equipamento cadastrado.</p>
+{% endif %}
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script>
+const filtroFilial = document.getElementById("filtro-filial");
+const filtroSetor = document.getElementById("filtro-setor");
+const filtroTipo = document.getElementById("filtro-tipo");
+const tabelaBody = document.querySelector('#tabela-equipamentos tbody');
+
+const headers = Array.from(document.querySelectorAll('#tabela-equipamentos thead th'))
+                     .map(th => th.textContent.trim().toLowerCase());
+const idx = name => {
+  const i = headers.findIndex(h => h.includes(name));
+  return i >= 0 ? i : null;
+};
+const filialIdx = idx('filial');
+const setorIdx  = idx('setor');
+const tipoIdx   = idx('tipo');
+
+function filtrarTabela() {
+    const filialValor = filtroFilial.value.trim().toLowerCase();
+    const setorValor  = filtroSetor.value.trim().toLowerCase();
+    const tipoValor   = filtroTipo.value.trim().toLowerCase();
+
+    Array.from(tabelaBody.rows).forEach(row => {
+        const filial = filialIdx !== null ? (row.cells[filialIdx]?.textContent || '').toLowerCase() : '';
+        const setor  = setorIdx  !== null ? (row.cells[setorIdx]?.textContent  || '').toLowerCase() : '';
+        const tipo   = tipoIdx   !== null ? (row.cells[tipoIdx]?.textContent   || '').toLowerCase() : '';
+
+        const okFilial = filial.includes(filialValor);
+        const okSetor  = setor.includes(setorValor);
+        const okTipo   = tipo.includes(tipoValor);
+
+        row.style.display = (okFilial && okSetor && okTipo) ? '' : 'none';
+    });
+}
+
+[filtroFilial, filtroSetor, filtroTipo].forEach(el => el.addEventListener('input', filtrarTabela));
+
+document.getElementById('exportar').addEventListener('click', () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.table_to_sheet(document.getElementById('tabela-equipamentos'));
+    XLSX.utils.book_append_sheet(wb, ws, "Equipamentos");
+    XLSX.writeFile(wb, "equipamentos.xlsx");
+});
+</script>
+
+</script>
+
+{% endblock %}

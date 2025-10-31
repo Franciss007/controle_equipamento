@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Relatórios{% endblock %}
+{% block content %}
+<h1>Relatórios - Solicitações</h1>
+{% if solicitacoes %}
+     <div class="filtro-container">
+        <label for="filtro-filial">Filtrar por Filial:</label>
+        <input type="text" id="filtro-filial" placeholder="Digite a filial...">
+    </div>
+
+    <div class="filtro-container">
+        <label for="filtro-setor">Filtrar por Setor:</label>
+        <input type="text" id="filtro-setor" placeholder="Digite o setor...">
+    </div>
+
+    <div class="filtro-container">
+        <label for="filtro-tipo">Filtrar por Tipo:</label>
+        <input type="text" id="filtro-tipo" placeholder="Digite o tipo...">
+    </div>
+
+    <table id="tabela-equipamentos" class="tabela">
+        <thead>
+            <tr>
+                <th>Protocolo</th><th>Solicitante</th><th>Filial</th><th>Setor</th><th>Prioridade</th><th>Status</th><th>Tipo</th><th>Aberta em</th><th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in solicitacoes %}
+            <tr>
+                <td>{{ s.id }}</td>
+                <td>{{ s.solicitante_nome }}</td>
+                <td>{{ s.filial }}</td>
+                <td>{{ s.setor }}</td>
+                <td>{{ s.prioridade }}</td>
+                <td>{{ s.status }}</td>
+                <td>{{ s.tipo }}</td>
+                <td>{{ s.data_abertura }}</td>
+                <td>{{ s.descricao }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Sem dados para exibir.</p>
+{% endif %}
+
+<script>
+    const filtroFilial = document.getElementById("filtro-filial");
+    const filtroSetor = document.getElementById("filtro-setor");
+    const filtroTipo = document.getElementById("filtro-tipo");
+    const tabela = document.querySelector('#tabela-equipamentos tbody');
+
+    function filtrarTabela() {
+        const filialValor = filtroFilial.value.toLowerCase();
+        const setorValor = filtroSetor.value.toLowerCase();
+        const tipoValor = filtroTipo.value.toLowerCase();
+
+        Array.from(tabela.rows).forEach(row => {
+            const filial = row.cells[2].textContent.toLowerCase();
+            const setor = row.cells[3].textContent.toLowerCase();
+            const tipo = row.cells[6].textContent.toLowerCase();
+
+            row.style.display = (filial.includes(filialValor) &&
+                                 setor.includes(setorValor) &&
+                                 tipo.includes(tipoValor)) ? '' : 'none';
+        });
+    }
+
+    if (tabela) {
+        filtroFilial.addEventListener("input", filtrarTabela);
+        filtroSetor.addEventListener("input", filtrarTabela);
+        filtroTipo.addEventListener("input", filtrarTabela);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Trocar Senha{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='troca_senha.css')}}">
+{% endblock %}
+{% block content %}
+<div class="login-wrapper">
+    <div class="card login-card">
+        <h1>Troque sua senha</h1>
+        <p>Você precisa alterar sua senha para continuar.</p>
+
+        <form method="post" class="form">
+            <label>Nova senha
+                <input type="password" name="new_password" required>
+            </label>
+            <label>Confirmar nova senha
+                <input type="password" name="confirm_password" required>
+            </label>
+            <button type="submit">Alterar senha</button>
+        </form>
+    </div>
+
+    <!-- Card do texto explicativo opcional -->
+    <div class="card info-card">
+        <h2>Dica de segurança</h2>
+        <p>Escolha uma senha segura, com letras maiúsculas, minúsculas, números e símbolos.<br>
+        Não compartilhe sua senha com ninguém.</p>
+    </div>
+
+</div>
+{% endblock %}

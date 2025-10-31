@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Usuários{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Gerenciar Usuários</h1>
+    
+    <!-- Layout lado a lado -->
+    <div class="grid-layout">
+        
+        <!-- ===== FORMULÁRIO ===== -->
+        <form method="post" action="{{ url_for('usuarios') }}" class="form">
+            <label>
+                Nome de usuário
+                <input type="text" name="username" placeholder="Nome de usuário">
+            </label>
+            
+            <label>
+                E-mail
+                <input type="email" name="email" placeholder="E-mail" required>
+            </label>
+            
+            <label>
+                Função:
+                <select name="role">
+                    <option value="">Selecione</option>
+                    <option value="admin">Admin</option>
+                    <option value="filial">Filial</option>
+                    <option value="aprovador">Aprovador</option>
+                </select>
+            </label>
+            
+            <label>
+                Filial (opcional para filial):
+                <select name="filial">
+                    <option value="">Selecione</option>
+                    {% for loja in lojas %}
+                    <option value="{{ loja.codigo }}">{{ loja.nome }} - {{ loja.codigo }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            
+            <button type="submit">Criar usuário</button>
+            <div class="filtro-container">
+                <label for="search-usuario">Pesquisar usuário:</label>
+                <input type="text" id="search-usuario" placeholder="Digite o nome do usuário...">
+            </div>
+            <hr>
+            
+            
+        </form>
+        
+        <!-- ===== TABELA ===== -->
+        <table class="tabela" id="tabela-usuarios">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Função</th>
+                    <th>Filial</th>
+                    <th>Resetar Senha</th>
+                    <th>Alterar Filial</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr data-role="{{ usuario.role }}">
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.role }}</td>
+                    <td>{{ usuario.filial or "-" }}</td>
+                    
+                    <!-- Botão para resetar senha -->
+                    <td>
+                        <a href="{{ url_for('usuarios_resetar', username=usuario.username) }}" class="btn">Resetar</a>
+                    </td>
+                    
+                    <!-- Form para alterar filial -->
+                    <td>
+                        <form method="post" action="{{ url_for('usuarios_trocar_filial', username=usuario.username) }}">
+                            <select name="nova_filial">
+                                <option value="">Selecione</option>
+                                {% for loja in lojas %}
+                                <option value="{{ loja.codigo }}" {% if usuario.filial == loja.codigo %}selected{% endif %}>
+                                    {{ loja.nome }} - {{ loja.codigo }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn">Alterar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div> <!-- fim grid-layout -->
+</div>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const linhas = document.querySelectorAll("#tabela-usuarios tbody tr");
+        function mostrarApenasAdmins() {
+            linhas.forEach(linha => {
+                if (linha.dataset.role !== "admin") {
+                linha.style.display = "none";
+            } else {
+                linha.style.display = "";
+            }
+        });
+    }
+    mostrarApenasAdmins();
+
+    document.getElementById("search-usuario").addEventListener("input", function() {
+        const filtro = this.value.toLowerCase().trim();
+        if (filtro === "") {
+            mostrarApenasAdmins();
+        } else {
+            linhas.forEach(linha => {
+                const username = linha.cells[0].innerText.toLowerCase();
+                if (username.includes(filtro)) {
+                    linha.style.display = "";
+                } else {
+                    linha.style.display = "none";
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}
